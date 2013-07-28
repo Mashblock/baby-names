@@ -16,6 +16,14 @@ $sansFontFamily: 'Lato', sans-serif;
     dominant-baseline: middle;
   }
 }
-.grid rect{
-  fill: #fff;
+.grid {
+  rect{
+    fill: #fff;
+  }
+  .rank_status{
+    fill: #fff;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
 }
+

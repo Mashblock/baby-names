@@ -41,44 +41,52 @@ class window.Gridmap
 
     left_text = @leftNames.selectAll("text")
       .data(@data, (d)-> d.name)
-      .attr("y", (d,i)=> (i+0.5)*@block_height)
-      .style("fill", @color)
 
-    left_text.enter()
-      .append("text")
-      .text((d)-> d.name)
+    left_text.enter().append("text")
+    left_text.exit().remove()
+
+    left_text.text((d)-> d.name)
       .attr("y", (d,i)=> (i+0.5)*@block_height)
       .style("fill", @color)
-    left_text.exit().remove()
 
     right_text = @rightNames.selectAll("text")
       .data(@data, (d)-> d.name)
+
+    right_text.enter().append("text")
+    right_text.exit().remove()
+
+    right_text.text((d)-> d.name)
       .attr("y", (d,i)=> (i+0.5)*@block_height)
       .style("fill", @color)
 
-    right_text.enter()
-      .append("text")
-      .text((d)-> d.name)
-      .attr("y", (d,i)=> (i+0.5)*@block_height)
-      .style("fill", @color)
-    right_text.exit().remove()
 
     _(App.years).each (year, index)=>
       @shade.domain d3.extent(_(@data).collect((d)-> d[year]?.number))
-      rect = d3.select("[data-year='#{year}']").selectAll("rect")
+      group = d3.select("[data-year='#{year}']").selectAll("g")
         .data(@data, (d)-> d.name)
-        .attr("y", (d,i)=> @block_height*i)
-        .style("fill", (d)=> if d[year]? then @shade(d[year].number) else "#fff")
-        .select("title").text((d)=> @tooltip(d, year))
-      rect.enter()
-        .append("rect")
+
+      new_group = group.enter().append("g")
+      new_group.append("rect")
+      new_group.append("title")
+      new_group.append("text").attr("class","rank_status")
+
+
+      group.exit().remove()
+
+      group.attr("transform",  (d,i)=> "translate(0, #{@block_height*i})")
+      group.select("rect")
         .attr("height",@block_height)
         .attr("width", @block_width)
-        .attr("y", (d,i)=> @block_height*i)
         .style("fill", (d)=> if d[year]? then @shade(d[year].number) else "#fff")
-      rect.exit().remove()
+      group.select("title").text((d)=> @tooltip(d, year))
+      group.select("text.rank_status")
+        .text((d)=> if d[year]?.rank == 1 then "★" else "" )
+        .attr("x", (d)=> @block_width/2)
+        .attr("y", (d)=> @block_height/2)
+
+
 
   tooltip: (d, year)->
-    description = if d[year]? then "Rank: #{d[year].rank} - Number: #{d[year].rank}" else "Outside top 100"
+    description = if d[year]? then "Rank: #{d[year].rank} - Number: #{d[year].number}" else "Outside top 100"
     "#{year} - #{description}"
 
