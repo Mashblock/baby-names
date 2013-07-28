@@ -22,7 +22,7 @@ App.showSex = (sex)->
   if App.data[sex]
     App.gridmap.updateData(App.data[sex], color)
   else
-    d3.csv("/data/#{sex}.csv").get (error, rows)->
+    d3.csv("data/#{sex}.csv").get (error, rows)->
       tmp_data = {}
       _(rows).forEach (row)->
         tmp_data[row.name] ?= {}

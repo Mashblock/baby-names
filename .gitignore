@@ -18,3 +18,6 @@
 
 # Ignore bower components
 /source/components
+
+# Ignore build directory
+/build
