@@ -1,5 +1,7 @@
 #= require gridmap
 
+top.location.replace(self.location.href) if (top != self)
+
 window.App =
   years: [1999..2012]
   data: {}
@@ -9,8 +11,13 @@ window.App =
 $(document).ready ->
   App.gridmap = new Gridmap(document.getElementById("graph"))
   App.showSex("boys")
+  $("#genders a").click ->
+    App.showSex($(this).data("gender"))
+    false
 
 App.showSex = (sex)->
+  $("#genders li").removeClass("active")
+  $("#genders li.#{sex}").addClass("active")
   color = App.colors[sex]
   if App.data[sex]
     App.gridmap.updateData(App.data[sex], color)

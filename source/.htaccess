@@ -9,6 +9,7 @@
 #   perishablepress.com/press/2006/01/10/stupid-htaccess-tricks/
 #   Sample .htaccess file of CMS MODx: modxcms.com
 
+Header always append X-Frame-Options SAMEORIGIN
 
 # ----------------------------------------------------------------------
 # Better website experience for IE users
