@@ -1,0 +1,21 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,700);
+
+$sansFontFamily: 'Lato', sans-serif;
+
+@import 'bootstrap';
+
+.year-title text{
+  text-anchor: middle;
+  dominant-baseline: hanging;
+}
+.left-text text{
+  text-anchor: end;
+}
+.left-text, .right-text{
+  text{
+    dominant-baseline: middle;
+  }
+}
+.grid rect{
+  fill: #fff;
+}
