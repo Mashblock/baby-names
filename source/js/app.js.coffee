@@ -9,11 +9,12 @@ window.App =
     girls: "#a04"
     boys: "#04a"
 $(document).ready ->
-  App.gridmap = new Gridmap(document.getElementById("graph"))
-  App.showSex("boys")
-  $("#genders a").click ->
-    App.showSex($(this).data("gender"))
-    false
+  if Modernizr.svg
+    App.gridmap = new Gridmap(document.getElementById("graph"))
+    App.showSex("boys")
+    $("#genders a").click ->
+      App.showSex($(this).data("gender"))
+      false
 
 App.showSex = (sex)->
   $("#genders li").removeClass("active")

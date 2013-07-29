@@ -7,6 +7,19 @@ $girlColor: #a04;
 
 @import 'bootstrap';
 
+.browser-message{
+  display:none;
+}
+.no-svg {
+  .browser-message{
+    display:block;
+    font-size: 16px;
+  }
+  #graph, .controls{
+    display:none;
+  }
+}
+
 #genders{
   li.boys{
     a, a:hover{
@@ -56,3 +69,20 @@ $girlColor: #a04;
   }
 }
 
+a.mb-logo-small{
+  display:block;
+  margin: 0 auto 20px;
+  width: 221px;
+  height: 23px;
+  background: image-url('mashblock-open.png') center no-repeat;
+  text-indent: -10000px;
+}
+
+@media
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  a.mb-logo-small{
+    background-image: image-url('mashblock-open@2x.png');
+    background-size: 221px 23px;
+  }
+}

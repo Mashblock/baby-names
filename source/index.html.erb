@@ -5,20 +5,28 @@ title: Most Popular Baby Names in New Zealand
 <div class="page-header">
   <h2 class="muted">Most Popular Baby Names in New Zealand</h2>
 </div>
-
-<ul id="genders" class="nav nav-pills">
-  <li class="boys">
-    <a href="#" data-gender="boys">Boys</a>
-  </li>
-  <li class="girls">
-    <a href="#" data-gender="girls">Girls</a>
-  </li>
-</ul>
-<p>&#9733; = Most popular name for that year.</p>
+<div class="controls">
+  <ul id="genders" class="nav nav-pills">
+    <li class="boys">
+      <a href="#" data-gender="boys">Boys</a>
+    </li>
+    <li class="girls">
+      <a href="#" data-gender="girls">Girls</a>
+    </li>
+  </ul>
+  <p>&#9733; = Most popular name for that year.</p>
+</div>
 
 <div id="graph"></div>
 
-<p class='muted text-center'>Data sourced from <%= link_to "Department of Internal Affairs", "http://www.dia.govt.nz/diawebsite.nsf/wpg_URL/Services-Births-Deaths-and-Marriages-Most-Popular-Male-and-Female-First-Names?OpenDocument" %> and <%= link_to "Statistics New Zealand", "http://www.stats.govt.nz/browse_for_stats/population/births/births-tables.aspx" %></p>
+<div class="browser-message">
+Sorry, but unfortunately you are using an outdated browser. Please <a href="http://browsehappy.com/">upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.
+<hr />
+</div>
 
-<p class="text-center">Build by <%= link_to "Cameron Prebble", "http://cameron-prebble.com" %>. Based off a simular visualisation by <%= link_to "David McCandless", "http://www.informationisbeautiful.net/" %>.</p>
+<p class='muted text-center'>Data sourced from <%= link_to "Department of Internal Affairs", "http://www.dia.govt.nz/diawebsite.nsf/wpg_URL/Services-Births-Deaths-and-Marriages-Most-Popular-Male-and-Female-First-Names?OpenDocument" %> and <%= link_to "Statistics New Zealand", "http://www.stats.govt.nz/browse_for_stats/population/births/births-tables.aspx" %>.</p>
+
+<p class="text-center">Build by <%= link_to "Cameron Prebble", "http://cameron-prebble.com" %>. This is a remix of an original visualisation by <%= link_to "David McCandless", "http://www.informationisbeautiful.net/" %>.</p>
+<p class="text-center">This mashup is part of the <%= link_to "Mashblock Open Collection", "http://open.mashblock.co.nz" %>.</p>
+<a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a>
 
