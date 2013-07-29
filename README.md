@@ -2,9 +2,7 @@
 
 View this visualisation at: http://open.mashblock.co.nz/nz-baby-names
 
-<iframe style="border: 0; margin: 0; padding: 0;"
-        src="https://www.gittip.com/campreb/widget.html"
-        width="48pt" height="22pt"></iframe>
+<iframe style="border: 0; margin: 0; padding: 0;" src="https://www.gittip.com/campreb/widget.html" width="48pt" height="22pt"></iframe>
 
 ## Contributing
 
