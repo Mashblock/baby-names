@@ -18,72 +18,62 @@ class window.Gridmap
       .text((d)-> d)
       .attr("x", (d,i)=> (i+0.5)*@block_width)
 
-    @leftNames = @svg.append("g")
-      .attr("class", "left-text")
-      .attr("transform", "translate(90, #{@top_margin})")
+    @paper = @svg.append("g").attr("transform", "translate(0,#{@top_margin})")
 
-    @rightNames = @svg.append("g")
-      .attr("class", "right-text")
-      .attr("transform", "translate(#{@width-90},#{@top_margin})")
-
-    @grid = @svg.append("g")
-      .attr("class", "grid")
-      .attr("transform", "translate(100,#{@top_margin})")
-
-    _(App.years).each (year, index)=>
-      @grid.append("g")
-        .attr("data-year", year)
-        .attr("transform", "translate(#{index*@block_width}, 0)")
 
   updateData: (@data, @color='#000')->
     @svg.attr "height", (@data.length*@block_height) + @top_margin
-    @shade = d3.scale.linear().range(["#fff", @color])
+    @shades = {}
+    _(App.years).each (year, index)=>
+      @shades[year] = d3.scale.linear()
+        .range(["#fff", @color])
+        .domain d3.extent(_(@data).collect((d)-> d[year]?.number))
 
-    left_text = @leftNames.selectAll("text")
+    rows = @paper.selectAll("g.row")
       .data(@data, (d)-> d.name)
 
-    left_text.enter().append("text")
-    left_text.exit().remove()
-
-    left_text.text((d)-> d.name)
-      .attr("y", (d,i)=> (i+0.5)*@block_height)
-      .style("fill", @color)
-
-    right_text = @rightNames.selectAll("text")
-      .data(@data, (d)-> d.name)
-
-    right_text.enter().append("text")
-    right_text.exit().remove()
-
-    right_text.text((d)-> d.name)
-      .attr("y", (d,i)=> (i+0.5)*@block_height)
-      .style("fill", @color)
-
+    new_row = rows.enter().append("g").attr("class", "row")
+    new_row.append("text")
+      .attr("class", "left-text")
+      .attr("y", @block_height/2)
+      .attr("transform", "translate(90, 0)")
+    new_row.append("text")
+      .attr("class", "right-text")
+      .attr("y", @block_height/2)
+      .attr("transform", "translate(#{@width-90},0)")
 
     _(App.years).each (year, index)=>
-      @shade.domain d3.extent(_(@data).collect((d)-> d[year]?.number))
-      group = d3.select("[data-year='#{year}']").selectAll("g")
-        .data(@data, (d)-> d.name)
-
-      new_group = group.enter().append("g")
-      new_group.append("rect")
-      new_group.append("title")
-      new_group.append("text").attr("class","rank_status")
-
-
-      group.exit().remove()
-
-      group.attr("transform",  (d,i)=> "translate(0, #{@block_height*i})")
-      group.select("rect")
+      cell = new_row.append("g")
+        .attr("data-year", year)
+        .attr("transform", "translate(#{(@block_width*index) + 100},0)")
+      cell.append("rect")
         .attr("height",@block_height)
         .attr("width", @block_width)
-        .style("fill", (d)=> if d[year]? then @shade(d[year].number) else "#fff")
-      group.select("title").text((d)=> @tooltip(d, year))
-      group.select("text.rank_status")
-        .text((d)=> if d[year]?.rank == 1 then "★" else "" )
+      cell.append("title")
+      cell.append("text")
+        .attr("class","rank_status")
         .attr("x", (d)=> @block_width/2)
         .attr("y", (d)=> @block_height/2)
 
+    rows.exit().remove()
+
+    rows.attr("transform", (d,i)=> "translate(0, #{i*@block_height})")
+
+    rows.select("text.left-text")
+      .text((d)-> d.name)
+      .style("fill", @color)
+
+    rows.select("text.right-text")
+      .text((d)-> d.name)
+      .style("fill", @color)
+
+    _(App.years).each (year, index)=>
+      cell = rows.selectAll("g[data-year='#{year}']")
+      cell.selectAll("rect")
+        .style("fill", (d)=> if d[year]? then @shades[year](d[year].number) else "#fff")
+      cell.selectAll("title").text((d)=> @tooltip(d, year))
+      cell.selectAll("text.rank_status")
+        .text((d)=> if d[year]?.rank == 1 then "★" else "" )
 
 
   tooltip: (d, year)->

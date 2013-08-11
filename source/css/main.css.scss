@@ -49,15 +49,13 @@ $girlColor: #a04;
   text-anchor: middle;
   dominant-baseline: hanging;
 }
-.left-text text{
+text.left-text{
   text-anchor: end;
 }
-.left-text, .right-text{
-  text{
+text.left-text, text.right-text{
     dominant-baseline: middle;
-  }
 }
-.grid {
+.row {
   rect{
     fill: #fff;
   }
