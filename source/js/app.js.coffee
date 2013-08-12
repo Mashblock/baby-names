@@ -27,7 +27,7 @@ App.showSex = (sex)->
       tmp_data = {}
       _(rows).forEach (row)->
         tmp_data[row.name] ?= {}
-        tmp_data[row.name][parseInt(row.year)] = {number: parseInt(row.number), rank: parseInt(row.rank)}
+        tmp_data[row.name][parseInt(row.year)] = {number: parseInt(row.number), rank: parseInt(row.rank), notes: row.notes}
       App.data[sex] = _(tmp_data).chain()
         .collect((values, key)-> _(values).extend({name: key}))
         .sortBy((girl)-> girl.name)
