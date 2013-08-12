@@ -7,7 +7,7 @@ gem "middleman", "~>3.1.3"
 # Live-reloading plugin
 gem "middleman-livereload", "~> 3.1.0"
 
-gem "bootstrap-sass", :require => false
+gem 'bootstrap-sass', :git => 'git://github.com/thomas-mcdonald/bootstrap-sass.git', :branch => '3', :require => false
 
 # For faster file watcher updates:
 # gem "wdm", "~> 0.1.0") # Windows

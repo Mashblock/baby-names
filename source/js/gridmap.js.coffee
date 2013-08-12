@@ -2,7 +2,10 @@ class window.Gridmap
   width: 940
   block_height: 20
   top_margin: 20
-
+  template: _.template """
+      <strong>Rank:</strong> <%= rank %><br />
+      <strong>Number:</strong> <%= number %><br />
+  """
 
   constructor: (@element)->
     @svg = d3.select(@element).append("svg")
@@ -71,12 +74,20 @@ class window.Gridmap
       cell = rows.selectAll("g[data-year='#{year}']")
       cell.selectAll("rect")
         .style("fill", (d)=> if d[year]? then @shades[year](d[year].number) else "#fff")
-      cell.selectAll("title").text((d)=> @tooltip(d, year))
+        .attr("data-toggle", "popover")
+        .attr("data-trigger", "hover")
+        .attr("data-container", "body")
+        .attr("data-placement", "top")
+        .attr("data-html", "true")
+        .attr("data-title", (d)=> "#{d.name} - #{year}")
+        .attr("data-content", (d)=> @tooltip(d,year))
       cell.selectAll("text.rank_status")
         .text((d)=> if d[year]?.rank == 1 then "★" else "" )
-
+    $("[data-toggle=popover]").popover()
 
   tooltip: (d, year)->
-    description = if d[year]? then "Rank: #{d[year].rank} - Number: #{d[year].number}" else "Outside top 100"
-    "#{year} - #{description}"
+    if d[year]?
+     # "Rank: #{d[year].rank} - Number: #{d[year].number}"
+     @template(d[year])
+    else "Outside top 100"
 
