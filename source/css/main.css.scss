@@ -7,6 +7,12 @@ $girlColor: #a04;
 
 @import 'bootstrap';
 
+
+.container{
+  max-width: none !important;
+  width: 970px;
+}
+
 .browser-message{
   display:none;
 }
