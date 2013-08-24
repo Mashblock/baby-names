@@ -17,11 +17,13 @@ $(document).ready ->
       false
 
 App.showSex = (sex)->
+  NProgress.start()
   $("#genders li").removeClass("active")
   $("#genders li.#{sex}").addClass("active")
   color = App.colors[sex]
   if App.data[sex]
     App.gridmap.updateData(App.data[sex], color)
+    NProgress.done()
   else
     d3.csv("data/#{sex}.csv").get (error, rows)->
       tmp_data = {}
@@ -33,6 +35,8 @@ App.showSex = (sex)->
         .sortBy((girl)-> girl.name)
         .value()
       App.gridmap.updateData(App.data[sex], color)
+      NProgress.done()
+
 
 
 
