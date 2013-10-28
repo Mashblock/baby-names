@@ -23,6 +23,7 @@ App.showSex = (sex)->
   $("#genders li").removeClass("active")
   $("#genders li.#{sex}").addClass("active")
   color = App.colors[sex]
+  App.gridmap.updateData([], color)
   if App.data[sex]
     App.gridmap.updateData(App.data[sex], color)
     NProgress.done()

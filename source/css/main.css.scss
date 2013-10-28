@@ -78,13 +78,10 @@ a.mb-logo-small{
   height: 23px;
   background: image-url('mashblock-open.png') center no-repeat;
   text-indent: -10000px;
-}
-
-@media
-(-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
-  a.mb-logo-small{
-    background-image: image-url('mashblock-open@2x.png');
-    background-size: 221px 23px;
+  @media(-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi) {
+      background-image: image-url('mashblock-open@2x.png');
+      background-size: 221px 23px;
   }
 }
+
+

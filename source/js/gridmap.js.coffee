@@ -56,7 +56,6 @@ class window.Gridmap
     grid_width =  if @media == 'xs' then (@width-120) else (@width-200)
     @width_scale.rangeRoundBands([0, grid_width], 0)
 
-
     @yearTitles.selectAll("text")
       .text((d)-> d)
 
@@ -87,7 +86,7 @@ class window.Gridmap
     cells.selectAll("rect")
       .attr("height",@block_height)
       .attr("width", @width_scale.rangeBand())
-      .style("fill", (d)=> @shades[d.key](d.values[0].number))
+      .style("fill", (d)=> @shades[d.key](parseInt(d.values[0].number,10)))
 
     cells.selectAll("text.rank_status")
       .text((d)=> if parseInt(d.values[0].rank,10) == 1 then "★" else "" )
