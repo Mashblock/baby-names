@@ -8,11 +8,6 @@ $girlColor: #a04;
 @import 'bootstrap';
 @import 'nprogress/nprogress';
 
-.container{
-  max-width: none !important;
-  width: 970px;
-}
-
 .browser-message{
   display:none;
 }
@@ -53,7 +48,6 @@ $girlColor: #a04;
 
 #graph{
   margin: 0 auto;
-  width: 940px;
   .year-title text{
     text-anchor: middle;
     dominant-baseline: hanging;

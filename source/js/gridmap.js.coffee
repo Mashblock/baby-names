@@ -1,16 +1,14 @@
 class window.Gridmap
-  width: 940
   block_height: 20
   top_margin: 20
-  template: _.template """
+  tooltip: _.template """
       <strong>Rank:</strong> <%= rank %><br />
       <strong>Number:</strong> <%= number %><br />
   """
 
   constructor: (@element)->
+
     @svg = d3.select(@element).append("svg")
-      .attr("width",@width)
-    @block_width = (@width-200)/App.years.length
 
     @yearTitles = @svg.append("g")
       .attr("class", "year-title")
@@ -18,76 +16,131 @@ class window.Gridmap
     @yearTitles.selectAll("text")
       .data(App.years)
       .enter().append("text")
-      .text((d)-> d)
-      .attr("x", (d,i)=> (i+0.5)*@block_width)
+    @width_scale = d3.scale.ordinal().domain(App.years)
 
-    @paper = @svg.append("g").attr("transform", "translate(0,#{@top_margin})")
+    @paper = @svg.append("g")
+
+    $(window).on "snap", @setMedia
+    $(window).on "resize", @onResize
+    $(window).trigger("resize")
+
+  setMedia: (e,data)=>
+    @media = switch data.minWidth
+      when 0 then "xs"
+      when 768 then "sm"
+      when 992 then "md"
+      when 1200 then "lg"
+    @svg.attr("data-media", @media)
+
+  onResize: =>
+    if @media == "xs" || @previous_media != @media
+      @redraw()
+      @previous_media = @media
+
+  setShades: ->
+    @shades = {}
+    @year_data = d3.nest().key((d)-> d.year).entries(@data)
+    @year_data.forEach (year)=>
+      @shades[year.key] = d3.scale.linear()
+        .range(["#fff", @color])
+        .domain d3.extent(_(year.values).collect((d)-> parseInt(d.number, 10)))
+
+  redraw: ->
+    @width = parseInt(d3.select(@element).style('width'),10)
+
+    top_margin = if @media == "xs" then 40 else 20
+
+    @svg.attr("width",@width)
+    @paper.attr("transform", "translate(0,#{top_margin})")
+
+    grid_width =  if @media == 'xs' then (@width-120) else (@width-200)
+    @width_scale.rangeRoundBands([0, grid_width], 0)
+
+
+    @yearTitles.selectAll("text")
+      .text((d)-> d)
+
+    rows = @paper.selectAll("g.row")
+    rows.attr("transform", (d,i)=> "translate(0, #{i*@block_height})")
+    rows.selectAll("text.left-text")
+      .text((d)-> d.key)
+      .style("fill", @color)
+      .attr("y", @block_height/2)
+      .attr("transform", "translate(90, 0)")
+
+    rows.selectAll("text.right-text")
+      .text((d)-> d.key)
+      .style("fill", @color)
+      .attr("y", @block_height/2)
+      .attr("transform", "translate(#{@width-90},0)")
+
+    cells = rows.selectAll("g.cell")
+    cells.attr("transform",(d)=> "translate(#{@width_scale(d.key) + 100},0)")
+      .attr("data-toggle", "popover")
+      .attr("data-trigger", "hover")
+      .attr("data-container", "body")
+      .attr("data-placement", "top")
+      .attr("data-html", "true")
+      .attr("data-title", (d)=> "#{d.values[0].name} - #{d.values[0].year}")
+      .attr("data-content", (d)=> @tooltip(d.values[0]))
+
+    cells.selectAll("rect")
+      .attr("height",@block_height)
+      .attr("width", @width_scale.rangeBand())
+      .style("fill", (d)=> @shades[d.key](d.values[0].number))
+
+    cells.selectAll("text.rank_status")
+      .text((d)=> if parseInt(d.values[0].rank,10) == 1 then "★" else "" )
+      .attr("x", @width_scale.rangeBand()/2.0)
+      .attr("y", @block_height/2.0)
+
+    $("[data-toggle=popover]").popover()
+
+    if @media == "xs"
+      rows.selectAll("text.right-text")
+        .style("visibility", "hidden")
+      @yearTitles.selectAll("text")
+        .attr("transform",(d)=> "translate(#{@width_scale(d) + (@width_scale.rangeBand()/2.0)}, 20)rotate(90)")
+        .style("dominant-baseline", "middle")
+    else
+      rows.selectAll("text.right-text")
+        .style("visibility", "visible")
+      @yearTitles.selectAll("text")
+        .attr("transform",(d)=> "translate(#{@width_scale(d) + (@width_scale.rangeBand()/2.0)}, 0)")
+        .style("dominant-baseline", "hanging")
 
 
   updateData: (@data, @color='#000')->
-    @svg.attr "height", (@data.length*@block_height) + @top_margin
-    @shades = {}
-    _(App.years).each (year, index)=>
-      @shades[year] = d3.scale.linear()
-        .range(["#fff", @color])
-        .domain d3.extent(_(@data).collect((d)-> d[year]?.number))
+    @setShades()
+
+    grouped_data = d3.nest()
+      .key((d)-> d.name).sortKeys(d3.ascending)
+      .key((d)-> d.year).sortKeys(d3.ascending)
+      .entries(@data)
+    @svg.attr "height", (grouped_data.length*@block_height) + @top_margin
 
     rows = @paper.selectAll("g.row")
-      .data(@data, (d)-> d.name)
+      .data(grouped_data, (d)-> d.key)
 
     new_row = rows.enter().append("g").attr("class", "row")
     new_row.append("text")
       .attr("class", "left-text")
-      .attr("y", @block_height/2)
-      .attr("transform", "translate(90, 0)")
     new_row.append("text")
       .attr("class", "right-text")
-      .attr("y", @block_height/2)
-      .attr("transform", "translate(#{@width-90},0)")
-
-    _(App.years).each (year, index)=>
-      cell = new_row.append("g")
-        .attr("data-year", year)
-        .attr("transform", "translate(#{(@block_width*index) + 100},0)")
-      cell.append("rect")
-        .attr("height",@block_height)
-        .attr("width", @block_width)
-      cell.append("title")
-      cell.append("text")
-        .attr("class","rank_status")
-        .attr("x", (d)=> @block_width/2)
-        .attr("y", (d)=> @block_height/2)
 
     rows.exit().remove()
 
-    rows.attr("transform", (d,i)=> "translate(0, #{i*@block_height})")
+    cells = rows.selectAll("g.cell")
+      .data ((d)-> d.values), ((d)-> d.key)
 
-    rows.select("text.left-text")
-      .text((d)-> d.name)
-      .style("fill", @color)
+    new_cells = cells.enter()
+      .append("g").attr("class","cell")
+    new_cells.append("rect")
+    new_cells.append("text").attr("class", "rank_status")
 
-    rows.select("text.right-text")
-      .text((d)-> d.name)
-      .style("fill", @color)
+    cells.exit().remove()
 
-    _(App.years).each (year, index)=>
-      cell = rows.selectAll("g[data-year='#{year}']")
-      cell.selectAll("rect")
-        .style("fill", (d)=> if d[year]? then @shades[year](d[year].number) else "#fff")
-        .attr("data-toggle", "popover")
-        .attr("data-trigger", "hover")
-        .attr("data-container", "body")
-        .attr("data-placement", "top")
-        .attr("data-html", "true")
-        .attr("data-title", (d)=> "#{d.name} - #{year}")
-        .attr("data-content", (d)=> @tooltip(d,year))
-      cell.selectAll("text.rank_status")
-        .text((d)=> if d[year]?.rank == 1 then "★" else "" )
-    $("[data-toggle=popover]").popover()
+    @redraw()
 
-  tooltip: (d, year)->
-    if d[year]?
-     # "Rank: #{d[year].rank} - Number: #{d[year].number}"
-     @template(d[year])
-    else "Outside top 100"
+
 

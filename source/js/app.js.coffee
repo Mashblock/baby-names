@@ -15,6 +15,8 @@ $(document).ready ->
     $("#genders a").click ->
       App.showSex($(this).data("gender"))
       false
+    $.rubberband
+      minWidth: [768, 992, 1200]
 
 App.showSex = (sex)->
   NProgress.start()
@@ -26,14 +28,7 @@ App.showSex = (sex)->
     NProgress.done()
   else
     d3.csv("data/#{sex}.csv").get (error, rows)->
-      tmp_data = {}
-      _(rows).forEach (row)->
-        tmp_data[row.name] ?= {}
-        tmp_data[row.name][parseInt(row.year)] = {number: parseInt(row.number), rank: parseInt(row.rank), notes: row.notes}
-      App.data[sex] = _(tmp_data).chain()
-        .collect((values, key)-> _(values).extend({name: key}))
-        .sortBy((girl)-> girl.name)
-        .value()
+      App.data[sex] = rows
       App.gridmap.updateData(App.data[sex], color)
       NProgress.done()
 
