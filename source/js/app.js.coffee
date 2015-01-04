@@ -3,7 +3,7 @@
 top.location.replace(self.location.href) if (top != self)
 
 window.App =
-  years: [1999..2013]
+  years: [1999..2014]
   data: {}
   colors:
     girls: "#a04"
@@ -32,7 +32,3 @@ App.showSex = (sex)->
       App.data[sex] = rows
       App.gridmap.updateData(App.data[sex], color)
       NProgress.done()
-
-
-
-
