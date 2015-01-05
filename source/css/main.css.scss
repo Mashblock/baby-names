@@ -51,6 +51,7 @@ $girlColor: #a04;
   .year-title text{
     text-anchor: middle;
     dominant-baseline: hanging;
+    cursor: pointer;
   }
   text.left-text{
     text-anchor: end;
@@ -83,5 +84,3 @@ a.mb-logo-small{
       background-size: 221px 23px;
   }
 }
-
-

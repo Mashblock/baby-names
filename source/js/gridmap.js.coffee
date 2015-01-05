@@ -7,7 +7,6 @@ class window.Gridmap
   """
 
   constructor: (@element)->
-
     @svg = d3.select(@element).append("svg")
 
     @yearTitles = @svg.append("g")
@@ -16,6 +15,10 @@ class window.Gridmap
     @yearTitles.selectAll("text")
       .data(App.years)
       .enter().append("text")
+      .on "click", (d)=>
+        @order_year = if @order_year == d then null else d
+        @redraw()
+    @yearTitles.append("title").text("Click to order by year")
     @width_scale = d3.scale.ordinal().domain(App.years)
 
     @paper = @svg.append("g")
@@ -57,10 +60,24 @@ class window.Gridmap
     @width_scale.rangeRoundBands([0, grid_width], 0)
 
     @yearTitles.selectAll("text")
-      .text((d)-> d)
+      .text( (d)-> d )
+      .style( 'font-weight', (d)=> 'bold' if d == @order_year )
+
+    if @order_year?
+      current_year = @data.filter (d)=> parseInt(d.year, 10) == @order_year
+      current_year.sort (a,b)-> parseInt(b.number,10) - parseInt(a.number,10)
+      current_names = current_year.map (d)-> d.name
 
     rows = @paper.selectAll("g.row")
-    rows.attr("transform", (d,i)=> "translate(0, #{i*@block_height})")
+    max_row = 100
+    rows.attr "transform", (d, i)=>
+      if current_names?
+        i = current_names.indexOf(d.key)
+        if i < 0
+          i = max_row
+          max_row += 1
+      "translate(0, #{i*@block_height})"
+
     rows.selectAll("text.left-text")
       .text((d)-> d.key)
       .style("fill", @color)
@@ -116,6 +133,16 @@ class window.Gridmap
       .key((d)-> d.name).sortKeys(d3.ascending)
       .key((d)-> d.year).sortKeys(d3.ascending)
       .entries(@data)
+
+    # if @order_year?
+    #   year_value = (data)=>
+    #     year_data = data.values.filter( (d)=> d.key == @order_year )
+    #     return 0 unless year_data.length > 0
+    #     return year_data[0].values[0].number
+    #
+    #   grouped_data.sort (a,b)=>
+    #     year_value(b) - year_value(a)
+
     @svg.attr "height", (grouped_data.length*@block_height) + @top_margin
 
     rows = @paper.selectAll("g.row")
@@ -140,6 +167,3 @@ class window.Gridmap
     cells.exit().remove()
 
     @redraw()
-
-
-
