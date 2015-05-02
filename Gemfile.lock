@@ -1,5 +1,6 @@
 GEM
   remote: http://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     activesupport (4.2.1)
       i18n (~> 0.7)
@@ -104,10 +105,14 @@ GEM
     padrino-support (0.12.5)
       activesupport (>= 3.1)
     rack (1.6.0)
+    rails-assets-Rubberband (3.1.2)
+    rails-assets-d3 (3.5.5)
+    rails-assets-jquery (2.1.4)
+    rails-assets-nprogress (0.1.6)
+    rails-assets-underscore (1.8.3)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    ruby18_source_location (0.2)
     sass (3.4.13)
     sprockets (2.12.3)
       hike (~> 1.2)
@@ -137,4 +142,8 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass
   middleman (~> 4.0.0.beta.1)
-  ruby18_source_location
+  rails-assets-Rubberband!
+  rails-assets-d3!
+  rails-assets-jquery!
+  rails-assets-nprogress!
+  rails-assets-underscore!

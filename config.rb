@@ -51,11 +51,11 @@ set :js_dir, 'js'
 
 set :images_dir, 'img'
 
-sprockets.append_path 'components'
+# sprockets.append_path 'components'
 
 # Build-specific configuration
 configure :build do
-  ignore "components/*"
+  # ignore "components/*"
   # For example, change the Compass output style for deployment
   activate :minify_css
 
@@ -63,7 +63,7 @@ configure :build do
   activate :minify_javascript
 
   # Enable cache buster
-  activate :asset_hash, ignore: "components/*"
+  activate :asset_hash
 
   # Use relative URLs
   activate :relative_assets
