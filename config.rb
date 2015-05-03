@@ -51,11 +51,20 @@ set :js_dir, 'js'
 
 set :images_dir, 'img'
 
-# sprockets.append_path 'components'
+configure :server do
+  activate :external_pipeline,
+    name: :browserify,
+    command: "node_modules/.bin/watchify source/js/index.js -d -v -o source/js/index.pkg.js",
+    source: "source/js"
+end
 
 # Build-specific configuration
 configure :build do
-  # ignore "components/*"
+  activate :external_pipeline,
+    name: :browserify,
+    command: "node_modules/.bin/browserify source/js/index.js -v -o source/js/index.pkg.js",
+    source: "source/js"
+
   # For example, change the Compass output style for deployment
   activate :minify_css
 

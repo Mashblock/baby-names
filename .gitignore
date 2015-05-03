@@ -17,7 +17,7 @@
 .DS_Store
 
 # Ignore bower components
-/source/components
+/node_modules
 
 # Ignore build directory
 /build

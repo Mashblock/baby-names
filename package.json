@@ -1,0 +1,27 @@
+{
+  "name": "baby_names",
+  "version": "0.0.0",
+  "description": "View this visualisation at: http://open.mashblock.co.nz/nz-baby-names",
+  "main": "index.js",
+  "devDependencies": {
+    "backbone": "^1.1.2",
+    "backbone.marionette": "^2.4.1",
+    "d3": "^3.5.5",
+    "browserify": "^10.0.0",
+    "jquery": "^2.1.4",
+    "watchify": "^3.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Mashblock/nz-baby-names.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mashblock/nz-baby-names/issues"
+  },
+  "homepage": "https://github.com/Mashblock/nz-baby-names"
+}
