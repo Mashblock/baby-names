@@ -6,19 +6,11 @@ title: Most Popular Baby Names in New Zealand
   <h2 class="text-muted">Most Popular Baby Names in New Zealand</h2>
 </div>
 
-<p>
-<ul id="genders" class="nav nav-pills nav-justified">
-  <li class="boys">
-    <a href="#" data-gender="boys">Boys</a>
-  </li>
-  <li class="girls">
-    <a href="#" data-gender="girls">Girls</a>
-  </li>
-</ul>
-</p>
+<div id='locales'></div>
+
+<div id='genders'></div>
 
 <p>&#9733; = <strong>Most popular name for that year.</strong></p>
-
 
 <div id="graph"></div>
 
@@ -37,3 +29,15 @@ Sorry, but unfortunately you are using an outdated browser. Please <a href="http
 <p class="text-center">This mashup is part of the <%= link_to "Mashblock Open Collection", "http://open.mashblock.co.nz" %>.</p>
 
 <p><a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a></p>
+
+<script id='locale_tmpl' type='text/ejs'>
+  <a href='#' class='btn <%%= current ? 'btn-primary' : 'btn-default' %>'>
+    <%%= name %>
+  </a>
+</script>
+
+<script id='gender_tmpl' type='text/ejs'>
+  <a href='#' class='btn btn-default' style='color:<%%= color %>'>
+    <%%= name %>
+  </a>
+</script>

@@ -5,8 +5,9 @@ $font-family-base: 'Lato', sans-serif;
 $boyColor: #04a;
 $girlColor: #a04;
 
+$brand-primary: #3c5a7f;
+
 @import 'bootstrap';
-@import 'nprogress/nprogress';
 
 .browser-message{
   display:none;
@@ -22,6 +23,10 @@ $girlColor: #a04;
 }
 
 #genders{
+  li > a {
+    border-color: currentColor;
+  }
+
   li.boys{
     a, a:hover{
       color: $boyColor;

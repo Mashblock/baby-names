@@ -3,7 +3,7 @@ var $ = require('jquery'),
 
 Backbone.$ = $; // Marionette Browserify Fix
 
-var App = require("./app");
+var App = require("./app/application");
 
 $(document).on('ready', function(){
   App.start();
