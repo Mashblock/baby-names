@@ -4,10 +4,11 @@
   "description": "View this visualisation at: http://open.mashblock.co.nz/nz-baby-names",
   "main": "index.js",
   "devDependencies": {
+    "babelify": "^6.1.1",
     "backbone": "^1.1.2",
     "backbone.marionette": "^2.4.1",
-    "d3": "^3.5.5",
     "browserify": "^10.0.0",
+    "d3": "^3.5.5",
     "jquery": "^2.1.4",
     "watchify": "^3.2.1"
   },

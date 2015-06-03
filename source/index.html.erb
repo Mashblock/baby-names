@@ -31,7 +31,8 @@ Sorry, but unfortunately you are using an outdated browser. Please <a href="http
 <p><a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a></p>
 
 <script id='locale_tmpl' type='text/ejs'>
-  <a href='#' class='btn <%%= current ? 'btn-primary' : 'btn-default' %>'>
+  <a href='#' class='btn locale-btn <%%= current ? 'btn-primary' : 'btn-default' %>'>
+    <img class='locale-btn__flag' src='img/<%%= code %>.svg' />
     <%%= name %>
   </a>
 </script>

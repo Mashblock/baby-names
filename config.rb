@@ -54,7 +54,7 @@ set :images_dir, 'img'
 configure :server do
   activate :external_pipeline,
     name: :browserify,
-    command: "node_modules/.bin/watchify source/js/index.js -d -v -o source/js/index.pkg.js",
+    command: "node_modules/.bin/watchify source/js/index.js -d -v  -t babelify -o source/js/index.pkg.js",
     source: "source/js"
 end
 
@@ -62,7 +62,7 @@ end
 configure :build do
   activate :external_pipeline,
     name: :browserify,
-    command: "node_modules/.bin/browserify source/js/index.js -v -o source/js/index.pkg.js",
+    command: "node_modules/.bin/browserify source/js/index.js -v -t babelify -o source/js/index.pkg.js",
     source: "source/js"
 
   # For example, change the Compass output style for deployment

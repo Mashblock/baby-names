@@ -3,6 +3,7 @@ var Backbone = require('backbone'),
     AppRoutes = require('./routes'),
     LocaleCollection = require('./collections/locales'),
     GenderCollection = require('./collections/genders'),
+    ResultCollection = require('./collections/locale_gender_results'),
     LayoutView = require('./views/layout'),
     LocaleView = require('./views/locales'),
     GenderView = require('./views/genders'),
@@ -14,7 +15,7 @@ var App = new Mn.Application({
     this.locales = new LocaleCollection([{
       code: 'us', name: 'United States of America'
     },{
-      code: 'nz', name: 'New Zealand', current: true
+      code: 'nz', name: 'New Zealand'
     },{
       code: 'gb_eng', name: 'England'
     }]);
@@ -24,6 +25,8 @@ var App = new Mn.Application({
     },{
       name: 'Girls', code: 'girl', color: '#a04'
     }]);
+
+    this.results = new ResultCollection();
   }
 });
 
@@ -38,20 +41,25 @@ App.on('start', function(){
 
 App.on('start', function(){
   this.router = new AppRoutes();
-  this.router.on('route:locale:default', bind(this.showLocale, this));
-  this.router.on('route:locale:gender', bind(this.showGender, this));
+  this.router.on('route:default', bind(this.showDefault, this));
   Backbone.history.start();
 });
 
-App.showLocale = function(locale_code){
-  var current_gender = this.genders.findWhere({current: true}),
-      path = locale_code+'/'+current_gender.get('code');
-  this.router.navigate(path, {trigger: true, replace: true});
+App.on('start', function(){
+  this.genders.on('highlight', bind(this.updateData, this));
+  this.locales.on('highlight', bind(this.updateData, this));
+});
+
+App.updateData = function(){
+  this.results.gender = this.genders.findWhere({current:true});
+  this.results.locale = this.locales.findWhere({current:true});
+  this.results.fetch();
 };
 
-App.showGender = function(locale_code, gender_code) {
-  this.locales.findWhere({code: locale_code})
-    .trigger('highlight');
+App.showDefault = function(){
+  this.locales.selectFromIPAddress();
 };
+
+
 
 module.exports = App;
