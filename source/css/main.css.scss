@@ -65,7 +65,7 @@ $brand-primary: #3c5a7f;
   text.left-text, text.right-text{
       dominant-baseline: middle;
   }
-  .row {
+  .rows {
     rect{
       fill: #fff;
     }
@@ -74,6 +74,7 @@ $brand-primary: #3c5a7f;
       text-anchor: middle;
       dominant-baseline: middle;
       font-size: 10px;
+      pointer-events: none;
     }
   }
 }
