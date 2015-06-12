@@ -7,13 +7,14 @@ var Backbone = require('backbone'),
     LayoutView = require('./views/layout'),
     LocaleView = require('./views/locales'),
     GenderView = require('./views/genders'),
-    bind =  require('../utilities').bind;
+    GraphView = require('./views/graph'),
+    bind = require('../utilities').bind;
 
 
 var App = new Mn.Application({
   initialize: function(){
     this.locales = new LocaleCollection([{
-      code: 'us', name: 'United States of America'
+      code: 'us', name: 'United States of America', current: true
     },{
       code: 'nz', name: 'New Zealand'
     },{
@@ -36,12 +37,13 @@ App.on('start', function(){
     .show(new GenderView({collection: this.genders}));
   this.layout.getRegion('locales')
     .show(new LocaleView({collection:this.locales}));
-
+  this.layout.getRegion('graph')
+    .show(new GraphView({collection: this.results}));
 });
 
 App.on('start', function(){
   this.router = new AppRoutes();
-  this.router.on('route:default', bind(this.showDefault, this));
+  this.router.on('route:default', bind(this.updateData, this));
   Backbone.history.start();
 });
 

@@ -38,7 +38,7 @@ Sorry, but unfortunately you are using an outdated browser. Please <a href="http
 </script>
 
 <script id='gender_tmpl' type='text/ejs'>
-  <a href='#' class='btn btn-default' style='color:<%%= color %>'>
+  <a href='#' class='btn <%%= current ? 'btn-primary' : 'btn-default' %>' style='color:<%%= color %>'>
     <%%= name %>
   </a>
 </script>

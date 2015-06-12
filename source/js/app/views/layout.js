@@ -4,7 +4,8 @@ var Layout = Mn.LayoutView.extend({
   el: 'body',
   regions: {
     locales: '#locales',
-    genders: '#genders'
+    genders: '#genders',
+    graph: '#graph'
   }
 });
 
