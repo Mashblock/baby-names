@@ -24,7 +24,7 @@ Sorry, but unfortunately you are using an outdated browser. Please <a href="http
 
 <p class="text-center">Build by <%= link_to "Cameron Prebble", "http://cameron-prebble.com" %>. This is a remix of an original visualisation by <%= link_to "David McCandless", "http://www.informationisbeautiful.net/" %>.</p>
 
-<p class='text-center'><a href="https://github.com/Mashblock/nz-baby-names"><i class="icon-github-sign"></i> Fork this project on GitHub.</a></p>
+<p class='text-center'><a href="https://github.com/Mashblock/nz-baby-names"><i class="icon-github-square"></i> Fork this project on GitHub.</a></p>
 
 <p class="text-center">This mashup is part of the <%= link_to "Mashblock Open Collection", "http://open.mashblock.co.nz" %>.</p>
 
@@ -38,7 +38,8 @@ Sorry, but unfortunately you are using an outdated browser. Please <a href="http
 </script>
 
 <script id='gender_tmpl' type='text/ejs'>
-  <a href='#' class='btn <%%= current ? 'btn-primary' : 'btn-default' %>' style='color:<%%= color %>'>
+  <a href='#' class='btn <%%= buttonClass() %>'>
+    <i class='icon-<%%= icon %>'></i>
     <%%= name %>
   </a>
 </script>

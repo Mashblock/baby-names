@@ -22,9 +22,9 @@ var App = new Mn.Application({
     }]);
 
     this.genders = new GenderCollection([{
-      name: 'Boys', code: 'boy', color: '#04a', current: true
+      name: 'Boys', code: 'boy', color: '#04a', icon: 'mars', current: true
     },{
-      name: 'Girls', code: 'girl', color: '#a04'
+      name: 'Girls', code: 'girl', color: '#a04', icon: 'venus'
     }]);
 
     this.results = new ResultCollection();
