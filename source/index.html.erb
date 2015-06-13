@@ -6,9 +6,10 @@ title: Most Popular Baby Names in New Zealand
   <h2 class="text-muted">Most Popular Baby Names in New Zealand</h2>
 </div>
 
-<div id='locales'></div>
-
-<div id='genders'></div>
+<ul class='list-inline'>
+  <li id='locales'></li>
+  <li id='genders'></li>
+</ul>
 
 <p>&#9733; = <strong>Most popular name for that year.</strong></p>
 
@@ -31,10 +32,21 @@ Sorry, but unfortunately you are using an outdated browser. Please <a href="http
 <p><a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a></p>
 
 <script id='locale_tmpl' type='text/ejs'>
-  <a href='#' class='btn locale-btn <%%= current ? 'btn-primary' : 'btn-default' %>'>
+  <a href='#' class='locale-btn'>
     <img class='locale-btn__flag' src='img/<%%= code %>.svg' />
     <%%= name %>
   </a>
+</script>
+
+<script id='locales_tmpl' type="text/ejs">
+  <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+      <img class='locale-btn__flag' src='img/<%%= code %>.svg' />
+      <%%= name %>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu"></ul>
+  </div>
 </script>
 
 <script id='gender_tmpl' type='text/ejs'>
