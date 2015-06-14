@@ -1,0 +1,1 @@
+var Backbone=require("backbone"),Locale=Backbone.Model.extend({defaults:{current:!1},initialize:function(){var e=this;this.on("highlight",function(){e.collection.forEach(function(e){e.set("current",!1)}),e.set("current",!0)})}});module.exports=Locale;

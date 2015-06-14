@@ -1,0 +1,1 @@
+var Backbone=require("backbone"),AppRoutes=Backbone.Router.extend({routes:{"":"default","!/:locale":"locale:default","!/:locale/:gender":"locale:gender"}});module.exports=AppRoutes;

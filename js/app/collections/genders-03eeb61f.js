@@ -1,0 +1,1 @@
+var Backbone=require("backbone"),Gender=require("../models/gender"),Genders=Backbone.Collection.extend({model:Gender});module.exports=Genders;

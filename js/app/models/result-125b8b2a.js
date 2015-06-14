@@ -1,0 +1,1 @@
+var Backbone=require("backbone"),Result=Backbone.Model.extend({idAttribute:"_id",parse:function(e){return e.value}});module.exports=Result;
