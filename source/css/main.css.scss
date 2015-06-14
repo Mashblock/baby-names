@@ -48,11 +48,23 @@ $brand-primary: #3c5a7f;
 
 #graph{
   margin: 0 auto 30px;
+
   .year-title text{
-    text-anchor: middle;
-    dominant-baseline: hanging;
+    text-anchor: end;
+    dominant-baseline: middle;
+    font-size: 0.8em;
     cursor: pointer;
+
+    @media (min-width: 768px) {
+      text-anchor: middle;
+      dominant-baseline: text-after-edge;
+    }
+
+    @media (min-width: 992px) {
+      font-size: 1em;
+    }
   }
+
   text.left-text{
     text-anchor: end;
   }

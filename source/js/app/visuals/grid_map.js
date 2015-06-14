@@ -1,11 +1,15 @@
 var d3 = require('d3'),
     _ = require('underscore'),
-    bind = require('../../utilities').bind;
+    utilities = require('../../utilities');
+
+var bind = utilities.bind,
+    media = utilities.media;
+
 
 class GridMap {
   constructor(element, collection){
     this.block_height = 20;
-    this.top_margin = 20;
+    this.top_margin = 40;
 
     this.element = element;
     this.collection = collection;
@@ -18,7 +22,7 @@ class GridMap {
 
     this.year_titles = this.svg.append("g")
       .attr("class", "year-title")
-      .attr("transform", "translate(100,0)");
+      .attr("transform", `translate(100,${this.top_margin - 5})`);
 
     d3.select(window).on('resize', _.throttle(bind(this.reposition, this), 300));
   }
@@ -57,7 +61,7 @@ class GridMap {
     this.width = parseInt(d3.select(this.element).style('width'),10);
     this.svg.attr('width', this.width);
 
-    this.media = (Modernizr.mq('(min-width: 768px)')) ? 'md' : 'xs';
+    this.media = media();
 
     this.grid_width = this.width - 100;
     if (this.media != 'xs') this.grid_width -= 100;
@@ -78,14 +82,18 @@ class GridMap {
   }
 
   drawColumnTitles(selection){
+    var _this = this;
     var columns = selection.selectAll("text")
       .data(this.current_years)
 
     columns.enter().append("text");
     columns.exit().remove();
     columns.text((d)=> d)
-      .attr("transform",(d)=> `translate(${this.x_scale(d) + (this.x_scale.rangeBand()/2.0)}, 0)`)
-      .style("dominant-baseline", "hanging");
+      .attr("transform", function(d){
+        var transform = `translate(${_this.x_scale(d) + (_this.x_scale.rangeBand()/2.0)}, 0)`
+        if (_this.media == 'xs') transform += 'rotate(90)';
+        return transform;
+      });
   }
 
   drawRows(selection){
