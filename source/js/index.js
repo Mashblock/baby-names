@@ -8,6 +8,7 @@ Backbone.$ = $; // Marionette Browserify Fix
 var App = require("./app/application");
 
 $(document).on('ready', function(){
+  if (!Modernizr.svg) return;
   App.start();
 });
 

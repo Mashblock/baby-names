@@ -19,6 +19,9 @@ class GridMap {
     this.year_titles = this.svg.append("g")
       .attr("class", "year-title")
       .attr("transform", "translate(100,0)");
+
+
+    d3.select(document).on('resize', bind(this.resize, this));
   }
 
   render(){
@@ -51,6 +54,18 @@ class GridMap {
     this.paper.selectAll('g.rows')
       .data(grouped_data, (d)=> d.key )
       .call(bind(this.drawRows, this));
+  }
+
+  resize(){
+    console.log('resize');
+    this.width = parseInt(d3.select(this.element).style('width'),10);
+    this.svg.attr('width', this.width);
+
+    this.x_scale.domain(this.current_years).rangeRoundBands([0, this.width - 200], 0);
+    this.year_titles.call(bind(this.drawColumnTitles, this));
+
+    selection.selectAll('g.cell')
+      .call(bind(this.drawCells, this));
   }
 
   drawColumnTitles(selection){
