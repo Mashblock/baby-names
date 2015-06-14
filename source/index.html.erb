@@ -1,9 +1,9 @@
 ---
-title: Most Popular Baby Names in New Zealand
+title: Most Popular Baby Names
 ---
 
 <div class="page-header">
-  <h2 class="text-muted">Most Popular Baby Names in New Zealand</h2>
+  <h2 class="text-muted">Most Popular Baby Names</h2>
 </div>
 
 <ul class='list-inline'>
@@ -20,16 +20,20 @@ Sorry, but unfortunately you are using an outdated browser. Please <a href="http
 <hr />
 </div>
 
+<p class="text-center">This mashup is part of the <%= link_to "Mashblock Open Collection", "http://open.mashblock.co.nz" %>.</p>
 
-<p class='text-muted text-center'>Data sourced from <%= link_to "Department of Internal Affairs", "http://www.dia.govt.nz/diawebsite.nsf/wpg_URL/Services-Births-Deaths-and-Marriages-Most-Popular-Male-and-Female-First-Names?OpenDocument" %> and <%= link_to "Statistics New Zealand", "http://www.stats.govt.nz/browse_for_stats/population/births/births-tables.aspx" %>.</p>
+<p><a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a></p>
 
 <p class="text-center">Build by <%= link_to "Cameron Prebble", "http://cameron-prebble.com" %>. This is a remix of an original visualisation by <%= link_to "David McCandless", "http://www.informationisbeautiful.net/" %>.</p>
 
 <p class='text-center'><a href="https://github.com/Mashblock/nz-baby-names"><i class="icon-github-square"></i> Fork this project on GitHub.</a></p>
 
-<p class="text-center">This mashup is part of the <%= link_to "Mashblock Open Collection", "http://open.mashblock.co.nz" %>.</p>
-
-<p><a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a></p>
+<p class='text-muted text-center'>Data sourced from:</p>
+<ul class='list-unstyled text-center'>
+  <% data.attribution.each do |source| %>
+    <li><%= link_to source.name, source.url, target: '_blank' %></li>
+  <% end %>
+</ul>
 
 <script id='locale_tmpl' type='text/ejs'>
   <a href='#' class='locale-btn'>
