@@ -20,18 +20,13 @@ class GridMap {
       .attr("class", "year-title")
       .attr("transform", "translate(100,0)");
 
-
-    d3.select(document).on('resize', bind(this.resize, this));
+    d3.select(window).on('resize', _.throttle(bind(this.reposition, this), 300));
   }
 
   render(){
     if (this.collection.length == 0) return;
-    this.width = parseInt(d3.select(this.element).style('width'),10);
-    this.svg.attr('width', this.width);
 
     this.current_years = _.unique(this.collection.pluck('year')).sort((a,b)=> a-b);
-    this.x_scale.domain(this.current_years).rangeRoundBands([0, this.width - 200], 0);
-    this.year_titles.call(bind(this.drawColumnTitles, this));
 
     this.color = this.collection.gender.get('color');
     this.shades = {};
@@ -54,18 +49,32 @@ class GridMap {
     this.paper.selectAll('g.rows')
       .data(grouped_data, (d)=> d.key )
       .call(bind(this.drawRows, this));
+
+    this.reposition();
   }
 
-  resize(){
-    console.log('resize');
+  reposition(){
     this.width = parseInt(d3.select(this.element).style('width'),10);
     this.svg.attr('width', this.width);
 
-    this.x_scale.domain(this.current_years).rangeRoundBands([0, this.width - 200], 0);
+    this.media = (Modernizr.mq('(min-width: 768px)')) ? 'md' : 'xs';
+
+    this.grid_width = this.width - 100;
+    if (this.media != 'xs') this.grid_width -= 100;
+
+    this.x_scale.domain(this.current_years).rangeRoundBands([0, this.grid_width], 0);
     this.year_titles.call(bind(this.drawColumnTitles, this));
 
-    selection.selectAll('g.cell')
-      .call(bind(this.drawCells, this));
+    this.paper.selectAll('text.right-text')
+      .style('visibility', (this.media == 'xs') ? 'hidden' : 'visible')
+      .attr("transform", `translate(${this.width-180},0)`);
+
+    var cells = this.paper.selectAll('g.cell')
+      .attr('transform', (d)=> `translate(${this.x_scale(d.get('year'))}, 0)`);
+    cells.selectAll('text.rank_status')
+      .attr("x", this.x_scale.rangeBand()/2.0);
+    cells.selectAll('rect')
+      .attr('width', this.x_scale.rangeBand())
   }
 
   drawColumnTitles(selection){
@@ -86,8 +95,7 @@ class GridMap {
     new_row.append('text').attr('class','left-text')
       .attr("transform", "translate(-10, 0)");
 
-    new_row.append('text').attr('class','right-text')
-      .attr("transform", `translate(${this.width-180},0)`);
+    new_row.append('text').attr('class','right-text');
 
     selection.exit().remove();
 
@@ -114,18 +122,14 @@ class GridMap {
 
     selection.exit().remove();
 
-    selection.attr('transform', (d)=> `translate(${this.x_scale(d.get('year'))}, 0)`)
-
     selection.selectAll('title')
       .text((d)=> `Year: ${d.get('year')}\nNumber: ${d.get('number')}\nRank: ${d.get('rank')}`)
 
     selection.selectAll('text.rank_status')
       .text((d)=> (d.get('rank') == 1) ? "★" : "" )
-      .attr("x", this.x_scale.rangeBand()/2.0)
       .attr("y", this.block_height/2.0);
 
     selection.selectAll('rect')
-      .attr('width', this.x_scale.rangeBand())
       .attr('height', this.block_height)
       .style('fill', function(d){
         var color_scale = _this.shades[d.get('year')];

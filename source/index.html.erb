@@ -2,38 +2,43 @@
 title: Most Popular Baby Names
 ---
 
-<div class="page-header">
+<header class="page-header">
   <h2 class="text-muted">Most Popular Baby Names</h2>
-</div>
+</header>
 
-<ul class='list-inline'>
-  <li id='locales'></li>
-  <li id='genders'></li>
-</ul>
+<main class='application'>
+  <ul class='list-inline'>
+    <li id='locales'></li>
+    <li id='genders'></li>
+  </ul>
 
-<p>&#9733; = <strong>Most popular name for that year.</strong></p>
+  <p>&#9733; = <strong>Most popular name for that year.</strong></p>
+  <div id="graph"></div>
+</main>
 
-<div id="graph"></div>
-
-<div class="browser-message">
-Sorry, but unfortunately you are using an outdated browser. Please <a href="http://browsehappy.com/">upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.
+<div class="browser-message text-center">
+Sorry, but unfortunately you are using an outdated browser. Please <a href="http://browsehappy.com/">upgrade your browser today</a> to better experience this site.
 <hr />
 </div>
 
-<p class="text-center">This mashup is part of the <%= link_to "Mashblock Open Collection", "http://open.mashblock.co.nz" %>.</p>
+<footer>
+  <p class="text-center">This mashup is part of the <%= link_to "Mashblock Open Collection", "http://open.mashblock.co.nz" %>.</p>
 
-<p><a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a></p>
+  <p><a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a></p>
 
-<p class="text-center">Build by <%= link_to "Cameron Prebble", "http://cameron-prebble.com" %>. This is a remix of an original visualisation by <%= link_to "David McCandless", "http://www.informationisbeautiful.net/" %>.</p>
+  <p class="text-center">Built by <%= link_to "Cameron Prebble", "http://cameron-prebble.com" %>. This is a remix of an original visualisation by <%= link_to "David McCandless", "http://www.informationisbeautiful.net/" %>.</p>
 
-<p class='text-center'><a href="https://github.com/Mashblock/nz-baby-names"><i class="icon-github-square"></i> Fork this project on GitHub.</a></p>
+  <p class='text-center'><a href="https://github.com/Mashblock/nz-baby-names"><i class="icon-github-square"></i> Fork this project on GitHub.</a></p>
 
-<p class='text-muted text-center'>Data sourced from:</p>
-<ul class='list-unstyled text-center'>
-  <% data.attribution.each do |source| %>
-    <li><%= link_to source.name, source.url, target: '_blank' %></li>
-  <% end %>
-</ul>
+  <div class='text-center'>
+    <span class='text-muted'>Data sourced from:</span>
+    <ul class='list-unstyled text-center'>
+      <% data.attribution.each do |source| %>
+        <li><%= link_to source.name, source.url, target: '_blank' %></li>
+      <% end %>
+    </ul>
+  </div>
+</footer>
 
 <script id='locale_tmpl' type='text/ejs'>
   <a href='#' class='locale-btn'>
