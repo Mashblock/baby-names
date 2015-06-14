@@ -43,20 +43,42 @@ App.on('start', function(){
 
 App.on('start', function(){
   this.router = new AppRoutes();
-  this.router.on('route:default', bind(this.updateData, this));
+  this.router.on('route:default', bind(this.updatePath, this));
+  this.router.on('route:locale:default', bind(this.setLocale, this));
+  this.router.on('route:locale:gender', bind(this.setLocaleAndGender, this));
   Backbone.history.start();
 });
 
 App.on('start', function(){
-  this.genders.on('highlight', bind(this.updateData, this));
-  this.locales.on('highlight', bind(this.updateData, this));
+  this.genders.on('highlight', bind(this.updatePath, this));
+  this.locales.on('highlight', bind(this.updatePath, this));
 });
+
+App.updatePath = function(){
+  var gender = this.genders.findWhere({current:true}),
+      locale = this.locales.findWhere({current:true});
+  this.router.navigate(`!/${locale.get('code')}/${gender.get('code')}`, {trigger: true})
+}
 
 App.updateData = function(){
   this.results.gender = this.genders.findWhere({current:true});
   this.results.locale = this.locales.findWhere({current:true});
   this.results.fetch({cache: true});
 };
+
+App.setLocale = function(locale_code){
+  var locale = this.locales.findWhere({code: locale_code});
+  if (typeof locale != 'undefined') locale.trigger('highlight');
+  this.updateData();
+};
+
+App.setLocaleAndGender = function(locale_code, gender_code){
+  var locale = this.locales.findWhere({code: locale_code}),
+      gender = this.genders.findWhere({code: gender_code});
+  if (typeof locale != 'undefined') locale.trigger('highlight');
+  if (typeof gender != 'undefined') gender.trigger('highlight');
+  this.updateData();
+}
 
 App.showDefault = function(){
   this.locales.selectFromIPAddress();
