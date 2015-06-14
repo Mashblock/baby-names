@@ -55,7 +55,7 @@ App.on('start', function(){
 App.updateData = function(){
   this.results.gender = this.genders.findWhere({current:true});
   this.results.locale = this.locales.findWhere({current:true});
-  this.results.fetch();
+  this.results.fetch({cache: true});
 };
 
 App.showDefault = function(){

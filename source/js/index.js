@@ -1,6 +1,7 @@
 window.$ = window.jQuery = require('jquery');
 var Backbone = require('backbone'),
-    Dropdown = require('bootstrap/js/dropdown');
+    Dropdown = require('bootstrap/js/dropdown'),
+    fetchCache = require('backbone-fetch-cache');
 
 Backbone.$ = $; // Marionette Browserify Fix
 

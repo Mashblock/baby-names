@@ -6,6 +6,7 @@
   "devDependencies": {
     "babelify": "^6.1.1",
     "backbone": "^1.1.2",
+    "backbone-fetch-cache": "^1.5.5",
     "backbone.marionette": "^2.4.1",
     "bootstrap": "^3.3.4",
     "browserify": "^10.0.0",
@@ -22,7 +23,7 @@
     "url": "git://github.com/Mashblock/nz-baby-names.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Mashblock/nz-baby-names/issues"
   },
