@@ -5,6 +5,7 @@ var d3 = require('d3'),
 var bind = utilities.bind,
     media = utilities.media;
 
+var template = _.template("<strong>Rank:</strong> <%= rank %><br /><strong>Number:</strong> <%= number.toLocaleString() %><br />");
 
 class GridMap {
   constructor(element, collection){
@@ -125,13 +126,17 @@ class GridMap {
       .attr('class', 'cell');
 
     new_cells.append('rect');
-    new_cells.append('title');
     new_cells.append('text').attr('class', 'rank_status')
 
     selection.exit().remove();
 
-    selection.selectAll('title')
-      .text((d)=> `Year: ${d.get('year')}\nNumber: ${d.get('number')}\nRank: ${d.get('rank')}`)
+    selection.attr("data-toggle", "popover")
+      .attr("data-trigger", "hover")
+      .attr("data-container", "body")
+      .attr("data-placement", "top")
+      .attr("data-html", "true")
+      .attr("data-title", (d)=> `${d.get('name')} - ${d.get('year')}`)
+      .attr("data-content", (d)=> template(d.attributes) )
 
     selection.selectAll('text.rank_status')
       .text((d)=> (d.get('rank') == 1) ? "★" : "" )
@@ -143,6 +148,8 @@ class GridMap {
         var color_scale = _this.shades[d.get('year')];
         return color_scale(d.get('number'));
       });
+
+    $("[data-toggle=popover]", this.element).popover()
   }
 }
 
