@@ -32,6 +32,11 @@ var App = new Mn.Application({
 });
 
 App.on('start', function(){
+  this.results.on('request', ()=> this.toggleLoading(true) )
+  this.results.on('sync', ()=> this.toggleLoading(false) )
+});
+
+App.on('start', function(){
   this.layout = new LayoutView();
   this.layout.getRegion('genders')
     .show(new GenderView({collection: this.genders}));
@@ -83,6 +88,16 @@ App.setLocaleAndGender = function(locale_code, gender_code){
 App.showDefault = function(){
   this.locales.selectFromIPAddress();
 };
+
+App.toggleLoading = function(show){
+  $('#graph').toggle(!show);
+  if (show){
+    this.loading_overlay = $("<div class='loading--overlay'><i class='icon-spinner loading--icon'></i><h3>LOADING...</h3></div>")
+    this.loading_overlay.appendTo($('main.application'))
+  } else {
+    $(this.loading_overlay).remove()
+  }
+}
 
 
 
