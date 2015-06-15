@@ -55,6 +55,7 @@ class GridMap {
       .data(grouped_data, (d)=> d.key )
       .call(bind(this.drawRows, this));
 
+    this.reorder();
     this.reposition();
   }
 
@@ -82,19 +83,42 @@ class GridMap {
       .attr('width', this.x_scale.rangeBand())
   }
 
+  reorder(){
+    var _this = this;
+
+    if (this.order_year){
+      this.current_names = this.collection.chain()
+        .filter((d)=> d.get('year') == this.order_year )
+        .sortBy((d)=> d.get('rank'))
+        .map((d)=> d.get('name')).value();
+      this.max_row = this.current_names.length;
+    } else {
+      this.current_names = null;
+    }
+
+    this.paper.selectAll('g.rows')
+      .sort(function(a,b){
+        if(a.key > b.key) return 1;
+        if(a.key < b.key) return -1;
+        return 0;
+      }).attr('transform', bind(this.rowPosition, this));
+
+    this.year_titles.selectAll('text')
+      .style('font-weight', function(d){
+        if (d == _this.order_year) return 'bold';
+      });
+  }
+
   drawColumnTitles(selection){
     var _this = this;
     var columns = selection.selectAll("text")
-      .data(this.current_years)
+      .data(this.current_years);
 
     columns.enter().append("text");
     columns.exit().remove();
     columns.text((d)=> d)
-      .attr("transform", function(d){
-        var transform = `translate(${_this.x_scale(d) + (_this.x_scale.rangeBand()/2.0)}, 0)`
-        if (_this.media == 'xs') transform += 'rotate(90)';
-        return transform;
-      });
+      .attr("transform", bind(this.titlePosition, this))
+      .on('click', bind(this.selectColumn, this));
   }
 
   drawRows(selection){
@@ -107,8 +131,6 @@ class GridMap {
     new_row.append('text').attr('class','right-text');
 
     selection.exit().remove();
-
-    selection.attr('transform', (d, i)=> `translate(100, ${i*this.block_height})`);
 
     selection.selectAll('text')
       .style('fill', this.color)
@@ -150,6 +172,28 @@ class GridMap {
       });
 
     $("[data-toggle=popover]", this.element).popover()
+  }
+
+  titlePosition(d){
+    var transform = `translate(${this.x_scale(d) + (this.x_scale.rangeBand()/2.0)}, 0)`
+    if (this.media == 'xs') transform += 'rotate(90)';
+    return transform;
+  }
+
+  rowPosition(d, i){
+    if (this.current_names){
+      i = this.current_names.indexOf(d.key)
+      if (i < 0){
+        i = this.max_row
+        this.max_row += 1
+      }
+    }
+    return `translate(100, ${i*this.block_height})`
+  }
+
+  selectColumn(d){
+    this.order_year = (this.order_year == d) ? null : d ;
+    this.reorder();
   }
 }
 
