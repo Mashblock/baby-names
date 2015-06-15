@@ -1,0 +1,1 @@
+window.$=window.jQuery=require("jquery");var Backbone=require("backbone"),Dropdown=require("bootstrap/js/dropdown"),Tooltip=require("bootstrap/js/tooltip"),Popover=require("bootstrap/js/popover"),fetchCache=require("backbone-fetch-cache");Backbone.$=$;var App=require("./app/application");$(document).on("ready",function(){Modernizr.svg&&App.start()}),module.exports=App;
