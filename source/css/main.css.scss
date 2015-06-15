@@ -5,8 +5,11 @@ $font-family-base: 'Lato', sans-serif;
 $boyColor: #04a;
 $girlColor: #a04;
 
+$brand-primary: #3c5a7f;
+
 @import 'bootstrap';
-@import 'nprogress/nprogress';
+@import 'icomoon';
+@import 'locale';
 
 .browser-message{
   display:none;
@@ -16,50 +19,59 @@ $girlColor: #a04;
     display:block;
     font-size: 16px;
   }
-  #graph, .controls{
+  main.application {
     display:none;
   }
 }
 
 #genders{
-  li.boys{
-    a, a:hover{
-      color: $boyColor;
-    }
-    &.active a{
+  a.boy{
+    color: $boyColor;
+    border-color: $boyColor;
+    &.active{
       background-color: $boyColor;
     }
   }
-  li.girls{
-    a, a:hover{
-      color: $girlColor;
-    }
-    &.active a{
+  a.girl{
+    color: $girlColor;
+    border-color: $girlColor;
+    &.active{
       background-color: $girlColor;
     }
   }
-  li.active {
-    a, a:hover{
-      color: #fff;
-      font-weight: bold;
-    }
+
+  a.active, a.active:hover{
+    color: #fff;
+    font-weight: bold;
   }
 }
 
 #graph{
-  margin: 0 auto;
+  margin: 0 auto 30px;
+
   .year-title text{
-    text-anchor: middle;
-    dominant-baseline: hanging;
+    text-anchor: end;
+    dominant-baseline: middle;
+    font-size: 0.8em;
     cursor: pointer;
+
+    @media (min-width: 768px) {
+      text-anchor: middle;
+      dominant-baseline: text-after-edge;
+    }
+
+    @media (min-width: 992px) {
+      font-size: 1em;
+    }
   }
+
   text.left-text{
     text-anchor: end;
   }
   text.left-text, text.right-text{
       dominant-baseline: middle;
   }
-  .row {
+  .rows {
     rect{
       fill: #fff;
     }
@@ -68,6 +80,7 @@ $girlColor: #a04;
       text-anchor: middle;
       dominant-baseline: middle;
       font-size: 10px;
+      pointer-events: none;
     }
   }
 }

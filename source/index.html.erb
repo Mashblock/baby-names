@@ -1,39 +1,66 @@
 ---
-title: Most Popular Baby Names in New Zealand
+title: Most Popular Baby Names
 ---
 
-<div class="page-header">
-  <h2 class="text-muted">Most Popular Baby Names in New Zealand</h2>
-</div>
+<header class="page-header">
+  <h2>Most Popular Baby Names <small class="text-muted"><em>&mdash; Beta</em></small></h2>
+</header>
 
-<p>
-<ul id="genders" class="nav nav-pills nav-justified">
-  <li class="boys">
-    <a href="#" data-gender="boys">Boys</a>
-  </li>
-  <li class="girls">
-    <a href="#" data-gender="girls">Girls</a>
-  </li>
-</ul>
-</p>
+<main class='application'>
+  <ul class='list-inline'>
+    <li id='locales'></li>
+    <li id='genders'></li>
+  </ul>
 
-<p>&#9733; = <strong>Most popular name for that year.</strong></p>
+  <p>&#9733; = <strong>Most popular name for that year.</strong></p>
+  <div id="graph"></div>
+</main>
 
-
-<div id="graph"></div>
-
-<div class="browser-message">
-Sorry, but unfortunately you are using an outdated browser. Please <a href="http://browsehappy.com/">upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.
+<div class="browser-message text-center">
+Sorry, but unfortunately you are using an outdated browser. Please <a href="http://browsehappy.com/">upgrade your browser today</a> to better experience this site.
 <hr />
 </div>
 
+<footer>
+  <p class="text-center">This mashup is part of the <%= link_to "Mashblock Open Collection", "http://open.mashblock.co.nz" %>.</p>
 
-<p class='text-muted text-center'>Data sourced from <%= link_to "Department of Internal Affairs", "http://www.dia.govt.nz/diawebsite.nsf/wpg_URL/Services-Births-Deaths-and-Marriages-Most-Popular-Male-and-Female-First-Names?OpenDocument" %> and <%= link_to "Statistics New Zealand", "http://www.stats.govt.nz/browse_for_stats/population/births/births-tables.aspx" %>.</p>
+  <p><a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a></p>
 
-<p class="text-center">Build by <%= link_to "Cameron Prebble", "http://cameron-prebble.com" %>. This is a remix of an original visualisation by <%= link_to "David McCandless", "http://www.informationisbeautiful.net/" %>.</p>
+  <p class="text-center">Built by <%= link_to "Cameron Prebble", "http://cameron-prebble.com" %>. This is a remix of an original visualisation by <%= link_to "David McCandless", "http://www.informationisbeautiful.net/" %>.</p>
 
-<p class='text-center'><a href="https://github.com/Mashblock/nz-baby-names"><i class="icon-github-sign"></i> Fork this project on GitHub.</a></p>
+  <p class='text-center'><a href="https://github.com/Mashblock/nz-baby-names"><i class="icon-github-square"></i> Fork this project on GitHub.</a></p>
 
-<p class="text-center">This mashup is part of the <%= link_to "Mashblock Open Collection", "http://open.mashblock.co.nz" %>.</p>
+  <div class='text-center'>
+    <span class='text-muted'>Data sourced from:</span>
+    <ul class='list-unstyled text-center'>
+      <% data.attribution.each do |source| %>
+        <li><%= link_to source.name, source.url, target: '_blank' %></li>
+      <% end %>
+    </ul>
+  </div>
+</footer>
 
-<p><a href="http://open.mashblock.co.nz" class='mb-logo-small'>Mashblock Open</a></p>
+<script id='locale_tmpl' type='text/ejs'>
+  <a href='#' class='locale-btn'>
+    <img class='locale-btn__flag' src='img/<%%= code %>.svg' />
+    <%%= name %>
+  </a>
+</script>
+
+<script id='locales_tmpl' type="text/ejs">
+  <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle locale-btn" data-toggle="dropdown" aria-expanded="false">
+      <img class='locale-btn__flag' src='img/<%%= code %>.svg' />
+      <%%= name %>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu"></ul>
+  </div>
+</script>
+
+<script id='gender_tmpl' type='text/ejs'>
+  <a href='#' class='btn <%%= buttonClass() %>'>
+    <i class='icon-<%%= icon %>'></i>
+    <%%= name %>
+  </a>
+</script>

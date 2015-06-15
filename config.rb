@@ -36,7 +36,7 @@
 # activate :automatic_image_sizes
 
 # Reload the browser automatically whenever files change
-activate :livereload
+# activate :livereload
 
 # Methods defined in the helpers block are available in templates
 # helpers do
@@ -51,11 +51,20 @@ set :js_dir, 'js'
 
 set :images_dir, 'img'
 
-sprockets.append_path 'components'
+configure :server do
+  activate :external_pipeline,
+    name: :browserify,
+    command: "node_modules/.bin/watchify source/js/index.js -d -v  -t babelify -o source/js/index.pkg.js",
+    source: "source/js"
+end
 
 # Build-specific configuration
 configure :build do
-  ignore "components/*"
+  activate :external_pipeline,
+    name: :browserify,
+    command: "node_modules/.bin/browserify source/js/index.js -v -t babelify -o source/js/index.pkg.js",
+    source: "source/js"
+
   # For example, change the Compass output style for deployment
   activate :minify_css
 
@@ -63,7 +72,7 @@ configure :build do
   activate :minify_javascript
 
   # Enable cache buster
-  activate :asset_hash, ignore: "components/*"
+  activate :asset_hash, ignore: %w(*.svg)
 
   # Use relative URLs
   activate :relative_assets
