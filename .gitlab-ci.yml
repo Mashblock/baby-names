@@ -10,7 +10,7 @@ cache:
 pages:
   script:
   - apt-get update -yqqq
-  - apt-get install -y nodejs
+  - apt-get install -y nodejs npm
   - bundle install --path vendor
   - npm install
   - bundle exec middleman build
