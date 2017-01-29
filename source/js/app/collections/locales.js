@@ -8,7 +8,7 @@ var Locales = Backbone.Collection.extend({
 
   selectFromIPAddress: function(){
     var _this = this;
-    $.getJSON('http://freegeoip.net/json/?callback=?', function(data){
+    $.getJSON('https://freegeoip.net/json/?callback=?', function(data){
       var code = data.country_code.toLowerCase(),
           locale;
       switch (code) {
