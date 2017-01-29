@@ -51,6 +51,8 @@ set :js_dir, 'js'
 
 set :images_dir, 'img'
 
+set :build_dir, 'public'
+
 configure :server do
   activate :external_pipeline,
     name: :browserify,

@@ -21,3 +21,4 @@
 
 # Ignore build directory
 /build
+/public
